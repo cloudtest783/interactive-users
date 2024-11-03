@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -12,19 +12,12 @@ const markerIcon = new L.Icon({
 
 const MapPage = () => {
   const { lat, lng } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate("/", {
-      state: location.state,
-    });
-  };
+  const location = useLocation();
 
   return (
     <div>
       <h2>Map</h2>
-      <button onClick={handleBack}>Back</button>
       <MapContainer center={[lat, lng]} zoom={13} style={{ height: '500px', width: '100%' }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -32,6 +25,7 @@ const MapPage = () => {
         />
         <Marker position={[lat, lng]} icon={markerIcon}></Marker>
       </MapContainer>
+      <button onClick={() => navigate('/', { state: location.state })}>Return</button>
     </div>
   );
 };
