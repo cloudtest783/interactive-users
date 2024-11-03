@@ -16,10 +16,12 @@ const PostCard = ({ post, onRemove, onEdit }) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (e.target.name === 'title') {
-        bodyRef.current.focus();
-      } else if (e.target.name === 'body') {
-        handleEdit();
-      }
+        bodyRef.current.focus(); // Switch focus to the body input
+      } 
+      else if  (e.target.name === 'body') {
+        titleRef.current.focus(); // Switch focus to the title input
+        // handleEdit();
+      } 
     }
   };
 
