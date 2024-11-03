@@ -18,9 +18,8 @@
   .edit-popup {
     position: absolute;
     top: 0;
-    right: -130%; /* Position it outside the post card */
-    width: 100%;
-    max-width: 400px; /* Limit the width of the popup */
+    right: -160%; /* Position it outside the post card */
+    width: 120%; /* Increase the width */
     height: 100%;
     padding: 16px;
     background-color: white;
@@ -35,12 +34,12 @@
   }
   
   .edit-popup.show {
-    right: 0; /* Show the popup */
+    right: -10%; /* Show the popup a bit outside the element */
   }
   
   .edit-input,
   .edit-textarea {
-    width: 100%;
+    width: 92%;
     height: 100%;
     padding: 8px;
     margin-bottom: 16px;
