@@ -21,10 +21,12 @@
   border-radius: 8px;
   padding: 16px;
   margin-top: 20px;
-  background-color: #f0f8ff;
+  /* background-color: white; */
 }
 
 h2 {
   margin-top: 0;
   font-size: 1.5em;
+  text-align: left; /* Align the user name to the left */
+  padding-left: 10px; /* Optional: Add some padding for better alignment */
 }

@@ -75,7 +75,7 @@ function App() {
       </div>
       {selectedUserId && (
         <div className="post-frame"> {/* Add a frame around the post list */}
-          <h2>User {selectedUserName}'s Posts</h2> {/* Add heading */}
+          <h2> {selectedUserName}'s Posts</h2> {/* Add heading */}
           <div className="post-list">
             {posts.map(post => (
               <PostCard key={post.id} post={post} onRemove={handleRemovePost} onEdit={handleEditPost} />
