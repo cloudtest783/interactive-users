@@ -1,6 +1,5 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
-import { getUsers, getUserPosts, deleteUser, deleteUserPost, updateUserPost } from './api';
+import { getUsers, getUserPosts, deleteUserPost, updateUserPost } from './api';
 import UserCard from './components/UserCard';
 import PostCard from './components/PostCard';
 
@@ -9,32 +8,51 @@ function App() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [posts, setPosts] = useState([]);
 
+  // Fetch users on component mount
   useEffect(() => {
-    getUsers().then(response => setUsers(response.data));
+    getUsers().then(response => {
+      console.log('Fetched users:', response.data);
+      setUsers(response.data);
+    });
   }, []);
 
+  // Fetch posts whenever a user is selected
+  useEffect(() => {
+    if (selectedUserId) {
+      getUserPosts(selectedUserId).then(response => {
+        console.log(`Fetched posts for user ${selectedUserId}:`, response.data);
+        setPosts(response.data);
+      });
+    }
+  }, [selectedUserId]);
+
+  // Remove user and their posts
   const handleRemoveUser = (userId) => {
-    deleteUser(userId).then(() => {
-      setUsers(users.filter(user => user.id !== userId));
-      if (userId === selectedUserId) {
-        setSelectedUserId(null);
-        setPosts([]);
-      }
-    });
+    console.log(`Removing user ${userId}`);
+    setUsers(users.filter(user => user.id !== userId));
+    if (userId === selectedUserId) {
+      setSelectedUserId(null);
+      setPosts([]);
+    }
   };
 
+  // Select user and fetch their posts
   const handleSelectUser = (userId) => {
+    console.log(`User ${userId} selected`);
     setSelectedUserId(userId);
-    getUserPosts(userId).then(response => setPosts(response.data));
   };
 
+  // Remove a post
   const handleRemovePost = (postId) => {
+    console.log(`Removing post ${postId}`);
     deleteUserPost(postId).then(() => {
       setPosts(posts.filter(post => post.id !== postId));
     });
   };
 
+  // Edit a post
   const handleEditPost = (postId, data) => {
+    console.log(`Editing post ${postId}`, data);
     updateUserPost(postId, data).then(() => {
       setPosts(posts.map(post => post.id === postId ? { ...post, ...data } : post));
     });

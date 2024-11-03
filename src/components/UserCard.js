@@ -2,13 +2,17 @@
 import React from 'react';
 
 const UserCard = ({ user, onRemove, onSelect }) => (
-  <div className="user-card">
+  <div className="user-card" onClick={() => onSelect(user.id)}>
     <h3>{user.name} ({user.username})</h3>
     <p>{user.email}</p>
-    <p>Coordinates: {user.address.geo.lat}, {user.address.geo.lng}</p>
+    <p onClick={(e) => {
+      e.stopPropagation();
+      window.location.href = `/map/${user.address.geo.lat}/${user.address.geo.lng}`;
+    }}>
+      Coordinates: {user.address.geo.lat}, {user.address.geo.lng}
+    </p>
     <p>Company: {user.company.name}</p>
-    <button onClick={() => onRemove(user.id)}>Remove</button>
-    <div onClick={() => onSelect(user.id)}>See Posts</div>
+    <button onClick={(e) => { e.stopPropagation(); onRemove(user.id); }}>X</button>
   </div>
 );
 
