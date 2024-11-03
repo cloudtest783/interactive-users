@@ -15,15 +15,12 @@
     transition: transform 0.3s ease-in-out;
   }
   
-  .content.shift {
-    transform: translateX(-90%); /* Shift the content to the left when editing */
-  }
-  
   .edit-popup {
     position: absolute;
     top: 0;
-    right: 0;
-    width: 90%; /* Takes up nearly the entire width */
+    right: -100%; /* Position it outside the post card */
+    width: 100%;
+    max-width: 400px; /* Limit the width of the popup */
     height: 100%;
     padding: 16px;
     background-color: white;
@@ -34,6 +31,11 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    transition: right 0.3s ease-in-out; /* Add transition for smooth effect */
+  }
+  
+  .edit-popup.show {
+    right: 0; /* Show the popup */
   }
   
   .edit-input,

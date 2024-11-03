@@ -25,7 +25,7 @@ const PostCard = ({ post, onRemove, onEdit }) => {
 
   return (
     <div className="post-card">
-      <div className={`content ${editing ? 'shift' : ''}`}>
+      <div className="content">
         <h3 onClick={() => setEditing(true)}>{post.title}</h3>
         <p onClick={() => setEditing(true)}>{post.body}</p>
       </div>
