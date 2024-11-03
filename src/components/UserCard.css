@@ -3,9 +3,10 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px;
-    margin: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box; /* Add this line */
   }
   
   .user-card:hover {

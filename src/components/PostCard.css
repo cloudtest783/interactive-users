@@ -3,14 +3,9 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
-    margin: 8px;
-    width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .post-card h3,
-  .post-card p {
-    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box; /* Add this line */
   }
   
   .remove-btn {
