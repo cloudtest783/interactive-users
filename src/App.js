@@ -7,6 +7,7 @@ import './App.css'; // Assuming you have a global CSS file for overall app style
 function App() {
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUserName, setSelectedUserName] = useState(''); // State for user's name
   const [posts, setPosts] = useState([]);
 
   // Fetch users on component mount
@@ -33,6 +34,7 @@ function App() {
     setUsers(users.filter(user => user.id !== userId));
     if (userId === selectedUserId) {
       setSelectedUserId(null);
+      setSelectedUserName(''); // Reset user's name
       setPosts([]);
     }
   };
@@ -41,6 +43,10 @@ function App() {
   const handleSelectUser = (userId) => {
     console.log(`User ${userId} selected`);
     setSelectedUserId(userId);
+    const user = users.find(user => user.id === userId);
+    if (user) {
+      setSelectedUserName(user.name); // Update user's name
+    }
   };
 
   // Remove a post
@@ -68,10 +74,13 @@ function App() {
         ))}
       </div>
       {selectedUserId && (
-        <div className="post-list">
-          {posts.map(post => (
-            <PostCard key={post.id} post={post} onRemove={handleRemovePost} onEdit={handleEditPost} />
-          ))}
+        <div className="post-frame"> {/* Add a frame around the post list */}
+          <h2>User {selectedUserName}'s Posts</h2> {/* Add heading */}
+          <div className="post-list">
+            {posts.map(post => (
+              <PostCard key={post.id} post={post} onRemove={handleRemovePost} onEdit={handleEditPost} />
+            ))}
+          </div>
         </div>
       )}
     </div>

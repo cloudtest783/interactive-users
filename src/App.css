@@ -1,50 +1,30 @@
-
-.App { 
-  font-family: Arial, sans-serif; text-align: center; padding: 20px;
-} .user-list, .post-list { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-  gap: 16px; 
-  justify-items: center; 
-  padding: 10px; 
-} .user-card, .post-card { width: 100%; }
-
-.post-card h3 { margin: 0; font-size: 1.2em; } 
-.post-card p { font-size: 0.9em; color: #555; } 
-button { margin-top: 8px; }
-
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.user-list, .post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  justify-items: center;
+  padding: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.user-card, .post-card {
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.post-frame {
+  border: 2px solid lightblue;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  background-color: #f0f8ff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2 {
+  margin-top: 0;
+  font-size: 1.5em;
 }
