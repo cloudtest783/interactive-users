@@ -18,7 +18,7 @@
   .edit-popup {
     position: absolute;
     top: 0;
-    right: -100%; /* Position it outside the post card */
+    right: -130%; /* Position it outside the post card */
     width: 100%;
     max-width: 400px; /* Limit the width of the popup */
     height: 100%;
