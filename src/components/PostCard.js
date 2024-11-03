@@ -25,14 +25,19 @@ const PostCard = ({ post, onRemove, onEdit }) => {
 
   return (
     <div className="post-card">
-      {editing ? (
-        <>
+      <div className={`content ${editing ? 'shift' : ''}`}>
+        <h3 onClick={() => setEditing(true)}>{post.title}</h3>
+        <p onClick={() => setEditing(true)}>{post.body}</p>
+      </div>
+      {editing && (
+        <div className="edit-popup">
           <input
             ref={titleRef}
             name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
+            className="edit-input"
           />
           <textarea
             ref={bodyRef}
@@ -40,17 +45,15 @@ const PostCard = ({ post, onRemove, onEdit }) => {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             onKeyPress={handleKeyPress}
+            className="edit-textarea"
           />
-          <button onClick={handleEdit}>Confirm</button>
-          <button onClick={() => setEditing(false)}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <h3 onClick={() => setEditing(true)}>{post.title}</h3>
-          <p onClick={() => setEditing(true)}>{post.body}</p>
-          <button className="remove-btn" onClick={() => onRemove(post.id)}>X</button>
-        </>
+          <div className="edit-actions">
+            <button onClick={handleEdit} className="save-btn">Save</button>
+            <button onClick={() => setEditing(false)} className="cancel-btn">Cancel</button>
+          </div>
+        </div>
       )}
+      <button className="remove-btn" onClick={() => onRemove(post.id)}>X</button>
     </div>
   );
 };
