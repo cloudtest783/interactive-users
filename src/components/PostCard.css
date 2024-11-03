@@ -20,7 +20,7 @@
     top: 0;
     right: -160%; /* Position it outside the post card */
     width: 120%; /* Increase the width */
-    height: 100%;
+    height: 105%; 
     padding: 16px;
     background-color: white;
     border-left: 1px solid #ccc;
@@ -37,10 +37,18 @@
     right: -10%; /* Show the popup a bit outside the element */
   }
   
-  .edit-input,
+  .edit-input {
+    width: 92%;
+    height: 10%; /* Set smaller height for input using percentage */
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
   .edit-textarea {
     width: 92%;
-    height: 100%;
+    height: 70%; /* Make textarea fill the rest of the space using percentage */
     padding: 8px;
     margin-bottom: 16px;
     border: 1px solid #ccc;
