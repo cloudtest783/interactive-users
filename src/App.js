@@ -16,6 +16,13 @@ function App() {
       console.log('Fetched users:', response.data);
       setUsers(response.data);
     });
+
+    // Check for query params
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('userId');
+    if (userId) {
+      handleSelectUser(parseInt(userId));
+    }
   }, []);
 
   // Fetch posts whenever a user is selected
@@ -37,6 +44,11 @@ function App() {
       setSelectedUserName(''); // Reset user's name
       setPosts([]);
     }
+
+    // Remove query param when user is removed
+    const params = new URLSearchParams(window.location.search);
+    params.delete('userId');
+    window.history.replaceState({}, '', `${window.location.pathname}`);
   };
 
   // Select user and fetch their posts
@@ -47,6 +59,11 @@ function App() {
     if (user) {
       setSelectedUserName(user.name); // Update user's name
     }
+
+    // Update query param when user is selected
+    const params = new URLSearchParams(window.location.search);
+    params.set('userId', userId);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
   };
 
   // Remove a post
@@ -75,7 +92,7 @@ function App() {
       </div>
       {selectedUserId && (
         <div className="post-frame"> {/* Add a frame around the post list */}
-          <h2> {selectedUserName}'s Posts</h2> {/* Add heading */}
+          <h2>User {selectedUserName}'s Posts</h2> {/* Add heading */}
           <div className="post-list">
             {posts.map(post => (
               <PostCard key={post.id} post={post} onRemove={handleRemovePost} onEdit={handleEditPost} />
