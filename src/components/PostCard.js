@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import './PostCard.css'; // Import the CSS file for styling
 
 const PostCard = ({ post, onRemove, onEdit }) => {
   const [editing, setEditing] = useState(false);
@@ -45,10 +46,9 @@ const PostCard = ({ post, onRemove, onEdit }) => {
         </>
       ) : (
         <>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-          <button onClick={() => onRemove(post.id)}>X</button>
-          <button onClick={() => setEditing(true)}>Edit</button>
+          <h3 onClick={() => setEditing(true)}>{post.title}</h3>
+          <p onClick={() => setEditing(true)}>{post.body}</p>
+          <button className="remove-btn" onClick={() => onRemove(post.id)}>X</button>
         </>
       )}
     </div>

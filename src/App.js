@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUsers, getUserPosts, deleteUserPost, updateUserPost } from './api';
 import UserCard from './components/UserCard';
 import PostCard from './components/PostCard';
+import './App.css'; // Assuming you have a global CSS file for overall app styles
 
 function App() {
   const [users, setUsers] = useState([]);
