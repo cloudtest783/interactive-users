@@ -1,6 +1,14 @@
-.App {
-  text-align: center;
+
+.App { 
+  font-family: Arial, sans-serif; 
+  text-align: center; 
 }
+.user-list, .post-list { display: flex; flex-wrap: wrap; justify-content: center; }
+.post-card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 8px; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); } 
+.post-card h3 { margin: 0; font-size: 1.2em; } 
+.post-card p { font-size: 0.9em; color: #555; } 
+button { margin-top: 8px; }
+
 
 .App-logo {
   height: 40vmin;

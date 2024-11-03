@@ -1,8 +1,10 @@
 // src/components/UserCard.js
 import React from 'react';
+import './UserCard.css'; // Import the CSS file
 
 const UserCard = ({ user, onRemove, onSelect }) => (
   <div className="user-card" onClick={() => onSelect(user.id)}>
+    <button className="remove-btn" onClick={(e) => { e.stopPropagation(); onRemove(user.id); }}>X</button>
     <h3>{user.name} ({user.username})</h3>
     <p>{user.email}</p>
     <p onClick={(e) => {
@@ -12,8 +14,8 @@ const UserCard = ({ user, onRemove, onSelect }) => (
       Coordinates: {user.address.geo.lat}, {user.address.geo.lng}
     </p>
     <p>Company: {user.company.name}</p>
-    <button onClick={(e) => { e.stopPropagation(); onRemove(user.id); }}>X</button>
   </div>
 );
 
 export default UserCard;
+
