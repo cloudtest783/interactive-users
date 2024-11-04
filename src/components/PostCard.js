@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import './PostCard.css'; // Import the CSS file for styling
 
-const PostCard = ({ post, onRemove, onEdit }) => {
+const PostCard = React.memo(({ post, onRemove, onEdit }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
@@ -9,7 +9,7 @@ const PostCard = ({ post, onRemove, onEdit }) => {
   const titleRef = useRef();
   const bodyRef = useRef();
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     if (!title.trim() || !body.trim()) {
       setErrorMessage('Title and body cannot be empty.');
       return;
@@ -17,9 +17,9 @@ const PostCard = ({ post, onRemove, onEdit }) => {
     setErrorMessage('');
     onEdit(post.id, { title, body });
     setEditing(false);
-  };
+  }, [title, body, onEdit, post.id]);
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') {
       if (e.target.name === 'title') {
         bodyRef.current.focus(); // Switch focus to the body input
@@ -27,7 +27,7 @@ const PostCard = ({ post, onRemove, onEdit }) => {
         titleRef.current.focus(); // Switch focus to the title input
       }
     }
-  };
+  }, []);
 
   return (
     <div className="post-card">
@@ -63,6 +63,6 @@ const PostCard = ({ post, onRemove, onEdit }) => {
       <button className="remove-btn" onClick={() => onRemove(post.id)}>X</button>
     </div>
   );
-};
+});
 
 export default PostCard;

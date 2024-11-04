@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { getUsers, getUserPosts, deleteUserPost, updateUserPost } from './api';
 import UserCard from './components/UserCard';
 import PostCard from './components/PostCard';
@@ -13,6 +13,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const location = useLocation();
 
+  // Fetch users on component mount
   useEffect(() => {
     getUsers().then(response => {
       setUsers(response.data);
@@ -26,6 +27,7 @@ function App() {
     }
   }, []);
 
+  // Fetch posts whenever a user is selected
   useEffect(() => {
     if (selectedUserId) {
       getUserPosts(selectedUserId).then(response => {
@@ -34,6 +36,7 @@ function App() {
     }
   }, [selectedUserId]);
 
+  // Check for location state
   useEffect(() => {
     if (location.state && location.state.savedState) {
       setSelectedUserId(location.state.savedState.selectedUserId);
@@ -42,7 +45,7 @@ function App() {
     }
   }, [location.state]);
 
-  const handleRemoveUser = (userId) => {
+  const handleRemoveUser = useCallback((userId) => {
     setUsers(users.filter(user => user.id !== userId));
     if (userId === selectedUserId) {
       setSelectedUserId(null);
@@ -53,9 +56,9 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     params.delete('userId');
     window.history.replaceState({}, '', `${window.location.pathname}`);
-  };
+  }, [selectedUserId, users]);
 
-  const handleSelectUser = (userId) => {
+  const handleSelectUser = useCallback((userId) => {
     setSelectedUserId(userId);
     const user = users.find(user => user.id === userId);
     if (user) {
@@ -65,24 +68,24 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     params.set('userId', userId);
     window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-  };
+  }, [users]);
 
-  const handleRemovePost = (postId) => {
+  const handleRemovePost = useCallback((postId) => {
     deleteUserPost(postId).then(() => {
       setPosts(posts.filter(post => post.id !== postId));
     });
-  };
+  }, [posts]);
 
-  const handleEditPost = (postId, data) => {
+  const handleEditPost = useCallback((postId, data) => {
     updateUserPost(postId, data).then(() => {
       setPosts(posts.map(post => post.id === postId ? { ...post, ...data } : post));
     });
-  };
+  }, [posts]);
 
-  const saveStateAndNavigate = (lat, lng) => {
+  const saveStateAndNavigate = useCallback((lat, lng) => {
     const savedState = { selectedUserId, selectedUserName, posts };
     window.history.pushState({ savedState }, '', `/map/${lat}/${lng}`);
-  };
+  }, [selectedUserId, selectedUserName, posts]);
 
   return (
     <div className="App">
