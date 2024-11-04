@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './UserCard.css'; // Import the CSS file
 
-const UserCard = ({ user, onRemove, onSelect }) => {
+const UserCard = React.memo(({ user, onRemove, onSelect }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,6 +16,6 @@ const UserCard = ({ user, onRemove, onSelect }) => {
       <p>Company: {user.company.name}</p>
     </div>
   );
-};
+});
 
 export default UserCard;
