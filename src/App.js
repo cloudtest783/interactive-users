@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { getUsers, getUserPosts, deleteUserPost, updateUserPost } from './api';
 import UserCard from './components/UserCard';
 import PostCard from './components/PostCard';
@@ -12,11 +12,14 @@ function App() {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [posts, setPosts] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Fetch users on component mount
   useEffect(() => {
     getUsers().then(response => {
       setUsers(response.data);
+    }).catch(error => {
+      console.error('Error fetching users:', error);
     });
 
     // Check for query params
@@ -32,6 +35,8 @@ function App() {
     if (selectedUserId) {
       getUserPosts(selectedUserId).then(response => {
         setPosts(response.data);
+      }).catch(error => {
+        console.error(`Error fetching posts for user ${selectedUserId}:`, error);
       });
     }
   }, [selectedUserId]);
@@ -73,19 +78,23 @@ function App() {
   const handleRemovePost = useCallback((postId) => {
     deleteUserPost(postId).then(() => {
       setPosts(posts.filter(post => post.id !== postId));
+    }).catch(error => {
+      console.error('Error deleting post:', error);
     });
   }, [posts]);
 
   const handleEditPost = useCallback((postId, data) => {
     updateUserPost(postId, data).then(() => {
       setPosts(posts.map(post => post.id === postId ? { ...post, ...data } : post));
+    }).catch(error => {
+      console.error('Error updating post:', error);
     });
   }, [posts]);
 
   const saveStateAndNavigate = useCallback((lat, lng) => {
     const savedState = { selectedUserId, selectedUserName, posts };
-    window.history.pushState({ savedState }, '', `/map/${lat}/${lng}`);
-  }, [selectedUserId, selectedUserName, posts]);
+    navigate(`/map/${lat}/${lng}`, { state: { savedState } });
+  }, [navigate, selectedUserId, selectedUserName, posts]);
 
   return (
     <div className="App">
@@ -100,12 +109,8 @@ function App() {
                   key={user.id}
                   user={user}
                   onRemove={handleRemoveUser}
-                  onSelect={(userId) => {
-                    handleSelectUser(userId);
-                  }}
-                  onCoordinatesClick={(lat, lng) => {
-                    saveStateAndNavigate(lat, lng);
-                  }}
+                  onSelect={handleSelectUser}
+                  onCoordinatesClick={saveStateAndNavigate}
                 />
               ))}
             </div>
