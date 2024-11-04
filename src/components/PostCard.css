@@ -1,0 +1,126 @@
+.post-card {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .edit-popup {
+    position: absolute;
+    top: 0;
+    right: -160%; /* Position it outside the post card */
+    width: 120%; /* Increase the width */
+    height: 105%; 
+    padding: 16px;
+    background-color: white;
+    border-left: 1px solid #ccc;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: right 0.3s ease-in-out; /* Add transition for smooth effect */
+  }
+  
+  .edit-popup.show {
+    right: -10%; /* Show the popup a bit outside the element */
+  }
+  
+  .edit-input {
+    width: 92%;
+    height: 10%; /* Set smaller height for input using percentage */
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-textarea {
+    width: 92%;
+    height: 70%; /* Make textarea fill the rest of the space using percentage */
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: auto;
+  }
+  
+  .save-btn {
+    padding: 8px 16px;
+    background-color: lightgreen;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .save-btn:hover {
+    background-color: #90ee90;
+  }
+  
+  .cancel-btn {
+    padding: 8px 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #333;
+  }
+  
+  .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  
+  .remove-btn:hover {
+    background-color: #ff1a1a;
+  }
+  
+  .edit-btn {
+    margin-top: 8px;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-btn:hover {
+    background-color: #e0e0e0;
+  }
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  
