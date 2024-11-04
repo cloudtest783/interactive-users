@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { getUsers, getUserPosts, deleteUserPost, updateUserPost } from './api';
 import UserCard from './components/UserCard';
 import PostCard from './components/PostCard';
@@ -13,7 +13,6 @@ function App() {
   const [posts, setPosts] = useState([]);
   const location = useLocation();
 
-  // Fetch users on component mount
   useEffect(() => {
     getUsers().then(response => {
       setUsers(response.data);
@@ -27,7 +26,6 @@ function App() {
     }
   }, []);
 
-  // Fetch posts whenever a user is selected
   useEffect(() => {
     if (selectedUserId) {
       getUserPosts(selectedUserId).then(response => {
@@ -36,14 +34,14 @@ function App() {
     }
   }, [selectedUserId]);
 
-  // Check for location state
   useEffect(() => {
-    if (location.state && location.state.userId) {
-      handleSelectUser(location.state.userId);
+    if (location.state && location.state.savedState) {
+      setSelectedUserId(location.state.savedState.selectedUserId);
+      setSelectedUserName(location.state.savedState.selectedUserName);
+      setPosts(location.state.savedState.posts);
     }
   }, [location.state]);
 
-  // Remove user and their posts
   const handleRemoveUser = (userId) => {
     setUsers(users.filter(user => user.id !== userId));
     if (userId === selectedUserId) {
@@ -52,13 +50,11 @@ function App() {
       setPosts([]);
     }
 
-    // Remove query param when user is removed
     const params = new URLSearchParams(window.location.search);
     params.delete('userId');
     window.history.replaceState({}, '', `${window.location.pathname}`);
   };
 
-  // Select user and fetch their posts
   const handleSelectUser = (userId) => {
     setSelectedUserId(userId);
     const user = users.find(user => user.id === userId);
@@ -66,24 +62,26 @@ function App() {
       setSelectedUserName(user.name);
     }
 
-    // Update query param when user is selected
     const params = new URLSearchParams(window.location.search);
     params.set('userId', userId);
     window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
   };
 
-  // Remove a post
   const handleRemovePost = (postId) => {
     deleteUserPost(postId).then(() => {
       setPosts(posts.filter(post => post.id !== postId));
     });
   };
 
-  // Edit a post
   const handleEditPost = (postId, data) => {
     updateUserPost(postId, data).then(() => {
       setPosts(posts.map(post => post.id === postId ? { ...post, ...data } : post));
     });
+  };
+
+  const saveStateAndNavigate = (lat, lng) => {
+    const savedState = { selectedUserId, selectedUserName, posts };
+    window.history.pushState({ savedState }, '', `/map/${lat}/${lng}`);
   };
 
   return (
@@ -95,7 +93,17 @@ function App() {
           <>
             <div className="user-list">
               {users.map(user => (
-                <UserCard key={user.id} user={user} onRemove={handleRemoveUser} onSelect={handleSelectUser} />
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  onRemove={handleRemoveUser}
+                  onSelect={(userId) => {
+                    handleSelectUser(userId);
+                  }}
+                  onCoordinatesClick={(lat, lng) => {
+                    saveStateAndNavigate(lat, lng);
+                  }}
+                />
               ))}
             </div>
             {selectedUserId && (
